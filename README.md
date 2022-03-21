@@ -11,7 +11,7 @@ Read more about Kiota [here](https://github.com/microsoft/kiota/blob/main/README
 ## Using the Kiota Text Serialization Library
 
 ```shell
-dotnet add package Microsoft.Kiota.Serialization.Text
+dotnet add package Microsoft.Kiota.Serialization.Text --prerelease
 ```
 
 ## Debugging
