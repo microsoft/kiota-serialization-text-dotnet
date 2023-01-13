@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Xml;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
-using System.Text;
 using Microsoft.Kiota.Abstractions.Extensions;
 using System.Linq;
 
@@ -25,11 +24,11 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     }
     private bool written;
     /// <inheritdoc />
-    public Action<IParsable> OnBeforeObjectSerialization { get; set; }
+    public Action<IParsable>? OnBeforeObjectSerialization { get; set; }
     /// <inheritdoc />
-    public Action<IParsable> OnAfterObjectSerialization { get; set; }
+    public Action<IParsable>? OnAfterObjectSerialization { get; set; }
     /// <inheritdoc />
-    public Action<IParsable, ISerializationWriter> OnStartObjectSerialization { get; set; }
+    public Action<IParsable, ISerializationWriter>? OnStartObjectSerialization { get; set; }
     /// <inheritdoc />
     public void Dispose()
     {
@@ -45,39 +44,39 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void WriteAdditionalData(IDictionary<string, object> value) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    public void WriteBoolValue(string key, bool? value) => WriteStringValue(key, value?.ToString());
+    public void WriteBoolValue(string? key, bool? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteByteArrayValue(string key, byte[] value) => WriteStringValue(key, value.Any() ? Convert.ToBase64String(value) : string.Empty);
+    public void WriteByteArrayValue(string? key, byte[]? value) => WriteStringValue(key, value?.Any() ?? false ? Convert.ToBase64String(value) : string.Empty);
     /// <inheritdoc />
-    public void WriteByteValue(string key, byte? value) => WriteStringValue(key, value?.ToString());
+    public void WriteByteValue(string? key, byte? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteCollectionOfObjectValues<T>(string key, IEnumerable<T> values) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    public void WriteCollectionOfObjectValues<T>(string? key, IEnumerable<T>? values) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    public void WriteCollectionOfPrimitiveValues<T>(string key, IEnumerable<T> values) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    public void WriteCollectionOfPrimitiveValues<T>(string? key, IEnumerable<T>? values) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    public void WriteDateTimeOffsetValue(string key, DateTimeOffset? value) => WriteStringValue(key, value.HasValue ? value.Value.ToString() : null);
+    public void WriteDateTimeOffsetValue(string? key, DateTimeOffset? value) => WriteStringValue(key, value.HasValue ? value.Value.ToString() : null);
     /// <inheritdoc />
-    public void WriteDateValue(string key, Date? value) => WriteStringValue(key, value?.ToString());
+    public void WriteDateValue(string? key, Date? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteDecimalValue(string key, decimal? value) => WriteStringValue(key, value?.ToString());
+    public void WriteDecimalValue(string? key, decimal? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteDoubleValue(string key, double? value) => WriteStringValue(key, value?.ToString());
+    public void WriteDoubleValue(string? key, double? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteFloatValue(string key, float? value) => WriteStringValue(key, value?.ToString());
+    public void WriteFloatValue(string? key, float? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteGuidValue(string key, Guid? value) => WriteStringValue(key, value?.ToString());
+    public void WriteGuidValue(string? key, Guid? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteIntValue(string key, int? value) => WriteStringValue(key, value?.ToString());
+    public void WriteIntValue(string? key, int? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteLongValue(string key, long? value) => WriteStringValue(key, value?.ToString());
+    public void WriteLongValue(string? key, long? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteNullValue(string key) => WriteStringValue(key, "null");
+    public void WriteNullValue(string? key) => WriteStringValue(key, "null");
     /// <inheritdoc />
-    public void WriteObjectValue<T>(string key, T value, params IParsable[] additionalValuesToMerge) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    public void WriteObjectValue<T>(string? key, T? value, params IParsable[] additionalValuesToMerge) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    public void WriteSbyteValue(string key, sbyte? value) => WriteStringValue(key, value?.ToString());
+    public void WriteSbyteValue(string? key, sbyte? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteStringValue(string key, string value)
+    public void WriteStringValue(string? key, string? value)
     {
         if(!string.IsNullOrEmpty(key))
             throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
@@ -90,11 +89,11 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
             }
     }
     /// <inheritdoc />
-    public void WriteTimeSpanValue(string key, TimeSpan? value) => WriteStringValue(key, value.HasValue ? XmlConvert.ToString(value.Value) : null);
+    public void WriteTimeSpanValue(string? key, TimeSpan? value) => WriteStringValue(key, value.HasValue ? XmlConvert.ToString(value.Value) : null);
     /// <inheritdoc />
-    public void WriteTimeValue(string key, Time? value) => WriteStringValue(key, value?.ToString());
+    public void WriteTimeValue(string? key, Time? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    void ISerializationWriter.WriteCollectionOfEnumValues<T>(string key, IEnumerable<T?> values) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    void ISerializationWriter.WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    void ISerializationWriter.WriteEnumValue<T>(string key, T? value) => WriteStringValue(key, value.HasValue ? value.Value.ToString().ToFirstCharacterLowerCase() : null);
+    void ISerializationWriter.WriteEnumValue<T>(string? key, T? value) => WriteStringValue(key, value.HasValue ? value.Value.ToString().ToFirstCharacterLowerCase() : null);
 }
