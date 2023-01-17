@@ -11,23 +11,23 @@ namespace Microsoft.Kiota.Serialization.Text;
 public class TextParseNode : IParseNode
 {
     internal const string NoStructuredDataMessage = "text does not support structured data";
-    private readonly string Text;
+    private readonly string? Text;
     /// <summary>
     /// Initializes a new instance of the <see cref="TextParseNode"/> class.
     /// </summary>
     /// <param name="text">The text value.</param>
-    public TextParseNode(string text)
+    public TextParseNode(string? text)
     {
         Text = text?.Trim('"');
     }
     /// <inheritdoc />
-    public Action<IParsable> OnBeforeAssignFieldValues { get; set; }
+    public Action<IParsable>? OnBeforeAssignFieldValues { get; set; }
     /// <inheritdoc />
-    public Action<IParsable> OnAfterAssignFieldValues { get; set; }
+    public Action<IParsable>? OnAfterAssignFieldValues { get; set; }
     /// <inheritdoc />
     public bool? GetBoolValue() => bool.TryParse(Text, out var result) ? result : null;
     /// <inheritdoc />
-    public byte[] GetByteArrayValue() => string.IsNullOrEmpty(Text) ? null : Convert.FromBase64String(Text);
+    public byte[]? GetByteArrayValue() => string.IsNullOrEmpty(Text) ? null : Convert.FromBase64String(Text);
     /// <inheritdoc />
     public byte? GetByteValue() => byte.TryParse(Text, out var result) ? result : null;
     /// <inheritdoc />
@@ -57,7 +57,7 @@ public class TextParseNode : IParseNode
     /// <inheritdoc />
     public sbyte? GetSbyteValue() => sbyte.TryParse(Text, out var result) ? result : null;
     /// <inheritdoc />
-    public string GetStringValue() => Text;
+    public string? GetStringValue() => Text;
     /// <inheritdoc />
     public TimeSpan? GetTimeSpanValue() => string.IsNullOrEmpty(Text) ? null : XmlConvert.ToTimeSpan(Text);
     /// <inheritdoc />
