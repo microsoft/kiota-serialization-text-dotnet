@@ -72,7 +72,7 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void WriteNullValue(string? key) => WriteStringValue(key, "null");
     /// <inheritdoc />
-    public void WriteObjectValue<T>(string? key, T? value, params IParsable[] additionalValuesToMerge) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    public void WriteObjectValue<T>(string? key, T? value, params IParsable?[] additionalValuesToMerge) where T : IParsable => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
     public void WriteSbyteValue(string? key, sbyte? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
