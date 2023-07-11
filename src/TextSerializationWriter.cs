@@ -20,7 +20,13 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// </summary>
     public TextSerializationWriter()
     {
-        writer = new(_stream, null, -1, leaveOpen: true);
+        writer = new(
+            _stream,
+            // Default encoding
+            encoding: System.Text.Encoding.UTF8,
+            // Default buffer size
+            bufferSize: 1024,
+            leaveOpen: true);
     }
     private bool written;
     /// <inheritdoc />
