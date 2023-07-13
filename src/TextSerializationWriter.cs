@@ -23,7 +23,7 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
         writer = new(
             _stream,
             // Default encoding
-            encoding: System.Text.Encoding.UTF8,
+            encoding: new System.Text.UTF8Encoding(false, true),
             // Default buffer size
             bufferSize: 1024,
             leaveOpen: true);
