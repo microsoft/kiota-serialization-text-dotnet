@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## [1.0.2] - 2023-07-12
+
+### Changed
+
+- Fix for unreadable stream [#82](https://github.com/microsoft/kiota-serialization-text-dotnet/issues/82)
+
 ## [1.0.1] - 2023-03-10
 
 ### Changed

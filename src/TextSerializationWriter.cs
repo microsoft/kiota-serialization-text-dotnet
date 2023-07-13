@@ -20,7 +20,13 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// </summary>
     public TextSerializationWriter()
     {
-        writer = new(_stream);
+        writer = new(
+            _stream,
+            // Default encoding
+            encoding: System.Text.Encoding.UTF8,
+            // Default buffer size
+            bufferSize: 1024,
+            leaveOpen: true);
     }
     private bool written;
     /// <inheritdoc />
@@ -32,13 +38,13 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void Dispose()
     {
-        _stream?.Dispose();
         writer?.Dispose();
         GC.SuppressFinalize(this);
     }
     /// <inheritdoc />
     public Stream GetSerializedContent() {
         writer.Flush();
+        _stream.Position = 0;
         return _stream;
     }
     /// <inheritdoc />
