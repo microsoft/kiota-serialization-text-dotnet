@@ -99,7 +99,17 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void WriteTimeValue(string? key, Time? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    void ISerializationWriter.WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
+    #if NET5_0_OR_GREATER
+    public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
+#else
+    public void WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
+#endif
+    => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    void ISerializationWriter.WriteEnumValue<T>(string? key, T? value) => WriteStringValue(key, value.HasValue ? value.Value.ToString().ToFirstCharacterLowerCase() : null);
+    #if NET5_0_OR_GREATER
+    public void WriteEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>(string? key, T? value) where T : struct, Enum
+#else
+    public void WriteEnumValue<T>(string? key, T? value) where T : struct, Enum
+#endif
+    => WriteStringValue(key, value.HasValue ? value.Value.ToString().ToFirstCharacterLowerCase() : null);
 }
