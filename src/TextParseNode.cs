@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Xml;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
+#if NET5_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Microsoft.Kiota.Serialization.Text;
 /// <summary>
@@ -63,7 +66,17 @@ public class TextParseNode : IParseNode
     /// <inheritdoc />
     public Time? GetTimeValue() => DateTime.TryParse(Text, out var result) ? new Time(result) : null;
     /// <inheritdoc />
-    IEnumerable<T?> IParseNode.GetCollectionOfEnumValues<T>() => throw new InvalidOperationException(NoStructuredDataMessage);
+    #if NET5_0_OR_GREATER
+    public IEnumerable<T?> GetCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>() where T : struct, Enum
+#else
+    public IEnumerable<T?> GetCollectionOfEnumValues<T>() where T : struct, Enum
+#endif
+    => throw new InvalidOperationException(NoStructuredDataMessage);
     /// <inheritdoc />
-    T? IParseNode.GetEnumValue<T>() => Enum.TryParse<T>(Text, true, out var result) ? result : null;
+    #if NET5_0_OR_GREATER
+    public T? GetEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>() where T : struct, Enum
+#else
+    public T? GetEnumValue<T>() where T : struct, Enum
+#endif
+    => Enum.TryParse<T>(Text, true, out var result) ? result : null;
 }
