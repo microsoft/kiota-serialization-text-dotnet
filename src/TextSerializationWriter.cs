@@ -17,13 +17,13 @@ namespace Microsoft.Kiota.Serialization.Text;
 /// </summary>
 public class TextSerializationWriter : ISerializationWriter, IDisposable {
     private readonly MemoryStream _stream = new MemoryStream();
-    private readonly StreamWriter writer;
+    private readonly StreamWriter _writer;
     /// <summary>
     /// Initializes a new instance of the <see cref="TextSerializationWriter"/> class.
     /// </summary>
     public TextSerializationWriter()
     {
-        writer = new(
+        _writer = new(
             _stream,
             // Default encoding
             encoding: new System.Text.UTF8Encoding(false, true),
@@ -31,7 +31,7 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
             bufferSize: 1024,
             leaveOpen: true);
     }
-    private bool written;
+    private bool _written;
     /// <inheritdoc />
     public Action<IParsable>? OnBeforeObjectSerialization { get; set; }
     /// <inheritdoc />
@@ -41,12 +41,12 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void Dispose()
     {
-        writer?.Dispose();
+        _writer?.Dispose();
         GC.SuppressFinalize(this);
     }
     /// <inheritdoc />
     public Stream GetSerializedContent() {
-        writer.Flush();
+        _writer.Flush();
         _stream.Position = 0;
         return _stream;
     }
@@ -90,11 +90,11 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
         if(!string.IsNullOrEmpty(key))
             throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
         if(!string.IsNullOrEmpty(value))
-            if(written)
+            if(_written)
                 throw new InvalidOperationException("a value was already written for this serialization writer, text content only supports a single value");
             else {
-                writer.Write(value);
-                written = true;
+                _writer.Write(value);
+                _written = true;
             }
     }
     /// <inheritdoc />
@@ -103,14 +103,14 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     public void WriteTimeValue(string? key, Time? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
     #if NET5_0_OR_GREATER
-    public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
+    public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #else
     public void WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #endif
     => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
     #if NET5_0_OR_GREATER
-    public void WriteEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]T>(string? key, T? value) where T : struct, Enum
+    public void WriteEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string? key, T? value) where T : struct, Enum
 #else
     public void WriteEnumValue<T>(string? key, T? value) where T : struct, Enum
 #endif

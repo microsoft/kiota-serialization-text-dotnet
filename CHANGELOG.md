@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## [1.1.2] - 2024-01-30
+
+### Changed
+
+- Fixed AOT warnings with reflection being used for enum types.
+
 ## [1.1.1] - 2023-11-15
 
 ### Added
