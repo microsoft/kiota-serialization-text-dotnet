@@ -106,7 +106,7 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable
     public void WriteTimeValue(string? key, Time? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
 #if NET5_0_OR_GREATER
-    public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
+    public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #else
     public void WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #endif
