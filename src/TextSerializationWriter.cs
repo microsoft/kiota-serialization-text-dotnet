@@ -15,7 +15,8 @@ namespace Microsoft.Kiota.Serialization.Text;
 /// <summary>
 /// The <see cref="ISerializationWriter"/> implementation for text content types.
 /// </summary>
-public class TextSerializationWriter : ISerializationWriter, IDisposable {
+public class TextSerializationWriter : ISerializationWriter, IDisposable
+{
     private readonly MemoryStream _stream = new MemoryStream();
     private readonly StreamWriter _writer;
     /// <summary>
@@ -45,7 +46,8 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
         GC.SuppressFinalize(this);
     }
     /// <inheritdoc />
-    public Stream GetSerializedContent() {
+    public Stream GetSerializedContent()
+    {
         _writer.Flush();
         _stream.Position = 0;
         return _stream;
@@ -92,7 +94,8 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
         if(!string.IsNullOrEmpty(value))
             if(_written)
                 throw new InvalidOperationException("a value was already written for this serialization writer, text content only supports a single value");
-            else {
+            else
+            {
                 _writer.Write(value);
                 _written = true;
             }
@@ -102,14 +105,14 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable {
     /// <inheritdoc />
     public void WriteTimeValue(string? key, Time? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    #if NET5_0_OR_GREATER
+#if NET5_0_OR_GREATER
     public void WriteCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #else
     public void WriteCollectionOfEnumValues<T>(string? key, IEnumerable<T?>? values) where T : struct, Enum
 #endif
     => throw new InvalidOperationException(TextParseNode.NoStructuredDataMessage);
     /// <inheritdoc />
-    #if NET5_0_OR_GREATER
+#if NET5_0_OR_GREATER
     public void WriteEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>(string? key, T? value) where T : struct, Enum
 #else
     public void WriteEnumValue<T>(string? key, T? value) where T : struct, Enum
