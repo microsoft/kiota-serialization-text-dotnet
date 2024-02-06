@@ -67,14 +67,14 @@ public class TextParseNode : IParseNode
     public Time? GetTimeValue() => DateTime.TryParse(Text, out var result) ? new Time(result) : null;
     /// <inheritdoc />
 #if NET5_0_OR_GREATER
-    public IEnumerable<T?> GetCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>() where T : struct, Enum
+    public IEnumerable<T?> GetCollectionOfEnumValues<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>() where T : struct, Enum
 #else
     public IEnumerable<T?> GetCollectionOfEnumValues<T>() where T : struct, Enum
 #endif
     => throw new InvalidOperationException(NoStructuredDataMessage);
     /// <inheritdoc />
 #if NET5_0_OR_GREATER
-    public T? GetEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] T>() where T : struct, Enum
+    public T? GetEnumValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields)] T>() where T : struct, Enum
 #else
     public T? GetEnumValue<T>() where T : struct, Enum
 #endif
