@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## [1.1.4] - 2024-02-27
+
+### Changed
+
+- Reduced `DynamicallyAccessedMembers` scope for enum methods to prevent ILC warnings.
+
 ## [1.1.3] - 2024-02-26
 
 ### Changed
