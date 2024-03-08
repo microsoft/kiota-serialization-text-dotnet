@@ -254,6 +254,7 @@ extends:
                   inputs:
                     command: push
                     packagesToPush: '$(Pipeline.Workspace)/Microsoft.Kiota.Serialization.Text.*.nupkg'
+                    packageParentPath: '$(Pipeline.Workspace)'
                     nuGetFeedType: external
                     publishFeedCredentials: 'Kiota Nuget Connection'
                 - task: GitHubRelease@1
