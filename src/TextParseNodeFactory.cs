@@ -36,7 +36,7 @@ public class TextParseNodeFactory : IAsyncParseNodeFactory
         _ = content ?? throw new ArgumentNullException(nameof(content));
 
         using var reader = new StreamReader(content);
-        var stringContent = await reader.ReadToEndAsync();
+        var stringContent = await reader.ReadToEndAsync().ConfigureAwait(false);
         return new TextParseNode(stringContent);
     }
 }
