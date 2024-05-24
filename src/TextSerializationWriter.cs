@@ -5,7 +5,7 @@ using System.Xml;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Abstractions.Extensions;
-using System.Linq;
+
 #if NET5_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
 #endif
@@ -57,7 +57,7 @@ public class TextSerializationWriter : ISerializationWriter, IDisposable
     /// <inheritdoc />
     public void WriteBoolValue(string? key, bool? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
-    public void WriteByteArrayValue(string? key, byte[]? value) => WriteStringValue(key, value?.Any() ?? false ? Convert.ToBase64String(value) : string.Empty);
+    public void WriteByteArrayValue(string? key, byte[]? value) => WriteStringValue(key, value?.Length > 0 ? Convert.ToBase64String(value) : string.Empty);
     /// <inheritdoc />
     public void WriteByteValue(string? key, byte? value) => WriteStringValue(key, value?.ToString());
     /// <inheritdoc />
